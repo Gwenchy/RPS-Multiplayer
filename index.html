@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="assets/CSS/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1>Sodor Express Directory</h1>
+        <h3>Train Schedule Directory</h3>
+    </div>
+    <br>
+    <br>
+    <div class="container" style="width: 90%; padding: 0">
+        <table class="table table-hover" style="border:solid ;border-color: steelblue;  border-top: none;border-width: thin">
+            <caption style="background: steelblue; color: white; font-weight: 700;border-radius: 5px ">Employee Data Management</caption>
+            <thead>
+                <tr>
+                    <th data-field="EmployeeName">Employee Name</th>
+                    <th data-field="Role"> Position</th>
+                    <th data-field="StartDate">Start Date</th>
+                    <th data-field="MonthlyWage">Monthly Wage</th>
+                </tr>
+            </thead>
+            <tbody>
+        </table>
+    </div>
+
+
+
+    </div>
+    <br>
+
+    <body>
+        <div class="container" style="width:90%;margin:0 5%;padding:0">
+            <div class="panel panel-default" style="border:solid steelblue thin">
+                <div class="panel-heading" style="background:steelblue;color:white">
+                    <h3 class="panel-title">Add Employee</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label for="name-input">Employee Name:</label>
+                        <input class="form-control" id="name-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="role-input">Role:</label>
+                        <input class="form-control" id="role-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-input">Start Date (DD/MM/YY - ex: 01/01/89)</label>
+                        <input class="form-control" id="date-input" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="wage-input">Monthly Rate:</label>
+                        <input class="form-control" id="wage-input" type="number">
+                    </div>
+
+                    <button class="btn btn-default btn-primary" id="add-user" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCKPNNbSRsn5YtflYkKSsuGn6n2f9i0PPc",
+                authDomain: "employee-database-ea55f.firebaseapp.com",
+                databaseURL: "https://employee-database-ea55f.firebaseio.com",
+                projectId: "employee-database-ea55f",
+                storageBucket: "",
+                messagingSenderId: "570650171391"
+            };
+            firebase.initializeApp(config);
+
+            var database = firebase.database();
+
+            var $table = $('table');
+
+            var mydata = [{
+                    EmployeeName: '1',
+                    Role: 'Item 1',
+                    StartDate: '1',
+                    MonthlyWage: '1 min',
+                }
+
+            ];
+
+            $("button").click(function () {
+                var EmployeeName = $("#name-input").val().trim();
+                var Role = $("#role-input").val().trim();
+                var StartDate = $("#date-input").val().trim();
+                var MonthlyWage = $("#wage-input").val().trim();
+
+                var data = {
+                    name: EmployeeName,
+                    role: Role,
+                    start: StartDate,
+                    rate: MonthlyWage
+                };
+
+                database.ref().push(data);
+
+                $("#name-input").val("");
+                $("#role-input").val("");
+                $("#date-input").val("");
+                $("#wage-input").val("");
+
+            });
+
+            database.ref().on("child_added", function(childSnapshot, prevChilKey){
+                console.log(childSnapshot.val());
+
+                var EmployeeName = childSnapshot.val().name;
+                var Role = childSnapshot.val().role;
+                var StartDate = childSnapshot.val().start;
+                var MonthlyWage = childSnapshot.val().rate;
+
+                $(".table table-hover").append()
+
+            })
+        </script>
+
+</html>
